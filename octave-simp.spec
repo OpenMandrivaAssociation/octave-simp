@@ -1,20 +1,20 @@
 %define	pkgname simp
 %define name	octave-%{pkgname}
 %define version 1.1.0
-%define release %mkrel 1
 
 Summary:	Basic interval operations for Octave
 Name:		%{name}
 Version:	%{version}
-Release:	%{release}
+Release:        2
 Source0:	%{pkgname}-%{version}.tar.gz
 License:	GPLv3+
 Group:		Sciences/Mathematics
 Url:		http://octave.sourceforge.net/simp/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Conflicts:	octave-forge <= 20090607
 Requires:	octave
-BuildRequires:	octave-devel, MesaGL-devel, MesaGLU-devel
+BuildRequires:  octave-devel
+BuildRequires:  mesagl-devel
+BuildRequires:  mesaglu-devel
 BuildArch:	noarch
 
 %description
@@ -25,7 +25,6 @@ This package defines basic operations on intervals for Octave.
 cp %SOURCE0 .
 
 %install
-rm -rf %{buildroot}
 %__install -m 755 -d %{buildroot}%{_datadir}/octave/packages/
 export OCT_PREFIX=%{buildroot}%{_datadir}/octave/packages
 octave -q --eval "pkg prefix $OCT_PREFIX; pkg install -verbose -nodeps -local %{pkgname}-%{version}.tar.gz"
@@ -36,7 +35,6 @@ mv %{pkgname}-%{version}/DESCRIPTION .
 mv %{pkgname}-%{version}/doc/*.pdf .
 
 %clean
-%__rm -rf %{buildroot}
 
 %post
 %{_bindir}/test -x %{_bindir}/octave && %{_bindir}/octave -q -H --no-site-file --eval "pkg('rebuild');" || :
@@ -48,4 +46,12 @@ mv %{pkgname}-%{version}/doc/*.pdf .
 %defattr(-,root,root)
 %doc COPYING DESCRIPTION *.pdf
 %{_datadir}/octave/packages/%{pkgname}-%{version}
+
+
+
+%changelog
+* Tue Aug 16 2011 Lev Givon <lev@mandriva.org> 1.1.0-1mdv2012.0
++ Revision: 694764
+- import octave-simp
+
 
